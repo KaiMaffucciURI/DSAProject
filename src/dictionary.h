@@ -14,13 +14,13 @@
 class LLRBTNode
 {
 private:
-    int data;
+    std::pair<std::string, int> data;
     bool red;
     LLRBTNode* left;
     LLRBTNode* right;
 
 public:
-    LLRBTNode(int data);
+    LLRBTNode(std::string word);
     ~LLRBTNode();
 
     friend class LLRBTree;
@@ -40,8 +40,8 @@ private:
     void flip_colors(LLRBTNode *node1, LLRBTNode *node2);
 
     // tree methods
-    LLRBTNode* insert(int data, LLRBTNode* root);
-    LLRBTNode* remove(int data, LLRBTNode* root);
+    LLRBTNode* insert(std::string word, LLRBTNode* root);
+    LLRBTNode* remove(std::string word, LLRBTNode* root);
     LLRBTNode* find_ios(LLRBTNode* root, bool& disconnect);
     int height(LLRBTNode* root);
 
@@ -50,19 +50,19 @@ private:
     void postorder(LLRBTNode* root, std::ostream& os);
 
     void destroy(LLRBTNode* root);
-    bool search(int data, LLRBTNode* root);
+    int search(std::string word, LLRBTNode* root); // takes in word, returns how many times it appears (0 if not found)
 
 public:
     LLRBTree();
     ~LLRBTree();
 
-    void insert(int data);
-    void remove(int data);
+    void insert(std::string word);
+    void remove(std::string word);
     int height();
 
     void preorder(std::ostream& os = std::cout);
     void inorder(std::ostream& os = std::cout);
     void postorder(std::ostream& os = std::cout);
 
-    bool search(int data);
+    int search(std::string word); // takes in word, returns how many times it appears (0 if not found)
 };
