@@ -1,13 +1,13 @@
-#include "dictionary.h"
+#include "dictionary.hpp"
 
 // helper function to easily convert everything to lowercase
 std::string to_lower(std::string str) {
 
     for (int i = 0; i < str.length(); i++) {
-        if (str[i] >= 'A' && str[i] <= 'Z') {
-            str[i] += 32;
-        }
+        str.at(i) = std::tolower(str.at(i));
     }
+
+    return str;
 }
 
 /*
