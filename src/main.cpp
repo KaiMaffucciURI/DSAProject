@@ -6,22 +6,64 @@
  *  Check again to make it all work/debug - it'll get done in the process, right?
  */
 
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <exception>
 
-int main(int argc, char* argv[]){
+#include "dictionary.hpp"
 
-    /* some code that github pilot came up with
-    // Get the numbers to be inserted
-    std::getline(ifs, line);
-    std::stringstream ss(line);
+void writeTree(std::ofstream& ofs, LLRBTNode* root)
+{
+	if (root == nullptr)
+	{
+		return;
+	}
 
-    int num;
-    // Insert the numbers
-    while(ss >> num){
-        tree.insert(num);
-    }
+	ofs << root->data.first << "[label=\"" << root->data.first << ", " << root->data.second << "\"]; ";
 
-    print_tree(&tree, mode, fs);
-    fs << "Tree Height: " << tree.height() << std::endl;
-    fs.close();
-     */
+	if (root->left != nullptr)
+	{
+		ofs << root->data.first << " -> " << root->left->data.first << "; ";
+	}
+
+	if (root->right != nullptr)
+	{
+		ofs << root->data.first << " -> " << root->right->data.first << "; ";
+	}
+
+	writeTree(ofs, root->left);
+	writeTree(ofs, root->right);
+
+	return;
+}
+
+void writeDotFile(std::string file, const LLRBTree& tree)
+{
+	std::ofstream ofs(file, std::ofstream::trunc);
+	if (!ofs.good())
+	{
+		throw new std::exception("Failed to open file");
+	}
+
+	ofs << "digraph G { ";
+
+	writeTree(ofs, tree.getRoot());
+
+	ofs << "}";
+	ofs.close();
+
+	return;
+}
+
+int main()
+{
+	LLRBTree t;
+	t.insert("BC");
+	t.insert("A");
+	t.insert("C");
+
+	writeDotFile("test.gv", t);
+
+	return 0;
 }
