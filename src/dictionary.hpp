@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <ostream>
+#include <string>
 
 // Defines MAX
 // When used, MAX(a,b) will be replaced with ((a > b) ? a : b)
@@ -11,19 +12,15 @@
 
 // Underlying class which will be used to implement the LLRBTree class.
 // I.E. LLRBTree is made up of LLRBTNode
-class LLRBTNode
+struct LLRBTNode
 {
-private:
     std::pair<std::string, int> data;
     bool red;
     LLRBTNode* left;
     LLRBTNode* right;
 
-public:
     LLRBTNode(std::string word);
     ~LLRBTNode();
-
-    friend class LLRBTree;
 };
 
 // Public versions: accept a single parameter so the usage of the class is neat.
@@ -65,4 +62,6 @@ public:
     void postorder(std::ostream& os = std::cout);
 
     int search(const std::string& word); // takes in word, returns how many times it appears (0 if not found)
+
+    LLRBTNode* const getRoot() const { return _root; }
 };
