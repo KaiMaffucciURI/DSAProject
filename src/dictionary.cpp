@@ -1,9 +1,18 @@
 #include "dictionary.h"
 
+// helper function to easily convert everything to lowercase
+std::string to_lower(std::string str) {
+
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            str[i] += 32;
+        }
+    }
+}
+
 /*
  * Node Class Functions
 */
-
 
 LLRBTNode::LLRBTNode(std::string word){
     this->data.first = word;
@@ -266,12 +275,16 @@ LLRBTree::~LLRBTree(){
 }
 
 void LLRBTree::insert(std::string word){
-    this->_root = this->insert(word, this->_root);
+    this->_root = this->insert(to_lower(word), this->_root);
     this->_root->red = false;
 }
 
 void LLRBTree::remove(std::string word){
-    this->_root = this->remove(word, this->_root);
+    this->_root = this->remove(to_lower(word), this->_root);
+}
+
+int LLRBTree::search(const std::string& word){
+    return this->search(to_lower(word), this->_root);
 }
 
 int LLRBTree::height(){
@@ -293,6 +306,3 @@ void LLRBTree::postorder(std::ostream& os){
     os << "\n";
 }
 
-int LLRBTree::search(const std::string& word){
-    return this->search(word, this->_root);
-}

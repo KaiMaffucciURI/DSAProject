@@ -1,6 +1,5 @@
 /*
  * TODO:
- *  Modify code to take pairs being <string, int> - Kai
  *  Organize nodes alphabetically by string (force everything to lowercase) - Kai
  *  Modify insert and search methods - Ashy
  *  Generate DOT file to visualize code - Sydney
