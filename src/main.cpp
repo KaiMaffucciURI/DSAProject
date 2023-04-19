@@ -1,11 +1,10 @@
 /*
  * TODO:
- *  Organize nodes alphabetically by string (force everything to lowercase) - Kai
- *  Modify insert and search methods - Ashy
+ *  Modify insert and search methods - Ashy (note from Kai: I toyed with them a bit, but I'm not sure if everything's done, check)
  *  Generate DOT file to visualize code - Sydney
  *  Create user friendly functions (like the last project) - Ryan
+ *  Check again to make it all work/debug - it'll get done in the process, right?
  */
-
 
 
 int main(int argc, char* argv[]){
