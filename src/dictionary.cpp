@@ -4,7 +4,6 @@
  * Node Class Functions
 */
 
-// TODO: account for the fact that 'data' is now a pair of a string and an int
 
 LLRBTNode::LLRBTNode(std::string word){
     this->data.first = word;
@@ -14,9 +13,7 @@ LLRBTNode::LLRBTNode(std::string word){
     this->right = nullptr;
 }
 
-LLRBTNode::~LLRBTNode(){
-
-}
+LLRBTNode::~LLRBTNode()= default;
 
 /*
  * Tree Class Functions
@@ -67,19 +64,19 @@ void LLRBTree::flip_colors(LLRBTNode* node1, LLRBTNode* node2) {
     node2->red = temp;
 }
 
-// TODO: fix this
+
 LLRBTNode* LLRBTree::insert(std::string word, LLRBTNode* node){
 
     if (!node) {
-        return new LLRBTNode(data);
+        return new LLRBTNode(word);
     }
 
     // Go left if data < data at this Node
-    if (data < node->data) {
-        node->left = insert(data, node->left);
+    if (word < node->data.first) {
+        node->left = insert(word, node->left);
         // Go right otherwise
-    } else if (data > node->data) {
-        node->right = insert(data, node->right);
+    } else if (word > node->data.first) {
+        node->right = insert(word, node->right);
     } else {
         return node;
     }
@@ -115,14 +112,13 @@ LLRBTNode* LLRBTree::insert(std::string word, LLRBTNode* node){
     return node;
 }
 
-// TODO: fix this (or just comment the whole thing out if we don't get around to implementing it)
 LLRBTNode* LLRBTree::remove(std::string word, LLRBTNode* root){
     if(!root){
         return nullptr;
     }
 
     // We found what we're looking for, delete it.
-    if(data == root->data){
+    if(word == root->data.first){
         LLRBTNode* temp;
         // This is a leaf node
         if(root->left == root->right){
@@ -149,15 +145,15 @@ LLRBTNode* LLRBTree::remove(std::string word, LLRBTNode* root){
 
         // Copy the data to this node and delete the original
         root->data = temp->data;
-        root->right = remove(temp->data, root->right);
+        root->right = remove(temp->data.first, root->right);
         return root;
     }
 
     // This is not the Node we're looking for, recursively find the data we want to delete
-    if(data < root->data){
-        root->left = remove(data, root->left);
+    if(word < root->data.first){
+        root->left = remove(word, root->left);
     }else{
-        root->right = remove(data, root->right);
+        root->right = remove(word, root->right);
     }
 
     return root;
@@ -188,21 +184,23 @@ int LLRBTree::height(LLRBTNode* root){
     return (left > right ? left + 1 : right + 1);
 }
 
-// TODO: fix traversal functions
+// modified traversals that print in format value:color
+// I made it so that it doesn't make any compiler errors,
+// but these funcs aren't super useful to us right now,
+// although they could be if the user wanted to print out all values in the tree,
+// so I'll leave this here like this for now
 
 void LLRBTree::preorder(LLRBTNode* root, std::ostream& os){
     if(!root){
         return;
     }
 
-    os << root->data << ":" << root->red << " ";
+    os << root->data.first << ":" << root->red << " ";
     this->preorder(root->left, os);
     this->preorder(root->right, os);
 
     return;
 }
-
-// modified traversals that print in format value:color
 
 void LLRBTree::inorder(LLRBTNode* root, std::ostream& os){
     if(!root){
@@ -210,7 +208,7 @@ void LLRBTree::inorder(LLRBTNode* root, std::ostream& os){
     }
 
     this->inorder(root->left, os);
-    os << root->data << ":" << root->red << " ";
+    os << root->data.first << ":" << root->red << " ";
     this->inorder(root->right, os);
 
     return;
@@ -223,7 +221,7 @@ void LLRBTree::postorder(LLRBTNode* root, std::ostream& os){
 
     this->postorder(root->left, os);
     this->postorder(root->right, os);
-    os << root->data << ":" << root->red << " ";
+    os << root->data.first << ":" << root->red << " ";
 
     return;
 }
@@ -239,20 +237,19 @@ void LLRBTree::destroy(LLRBTNode* root){
     delete root->right;
 }
 
-// TODO: fix this
-int LLRBTree::search(std::string word, LLRBTNode* root){
+int LLRBTree::search(const std::string& word, LLRBTNode* root){
     if(!root){
         return false;
     }
 
-    if(data == root->data){
+    if(word == root->data.first){
         return true;
     }
 
-    if(data < root->data){
-        return this->search(data, root->left);
+    if(word < root->data.first){
+        return this->search(word, root->left);
     }else{
-        return this->search(data, root->right);
+        return this->search(word, root->right);
     }
 }
 
@@ -268,7 +265,6 @@ LLRBTree::~LLRBTree(){
     delete this->_root;
 }
 
-// TODO: fix public functions
 void LLRBTree::insert(std::string word){
     this->_root = this->insert(word, this->_root);
     this->_root->red = false;
@@ -297,6 +293,6 @@ void LLRBTree::postorder(std::ostream& os){
     os << "\n";
 }
 
-bool LLRBTree::search(std::string word){
+int LLRBTree::search(const std::string& word){
     return this->search(word, this->_root);
 }

@@ -50,7 +50,7 @@ private:
     void postorder(LLRBTNode* root, std::ostream& os);
 
     void destroy(LLRBTNode* root);
-    int search(std::string word, LLRBTNode* root); // takes in word, returns how many times it appears (0 if not found)
+    int search(const std::string&, LLRBTNode* root); // takes in word, returns how many times it appears (0 if not found)
 
 public:
     LLRBTree();
@@ -64,5 +64,5 @@ public:
     void inorder(std::ostream& os = std::cout);
     void postorder(std::ostream& os = std::cout);
 
-    int search(std::string word); // takes in word, returns how many times it appears (0 if not found)
+    int search(const std::string& word); // takes in word, returns how many times it appears (0 if not found)
 };
