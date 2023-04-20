@@ -1,41 +1,8 @@
-# DSAProject (title page, remove this note later)
+# DSAProject
 Left-leaning red-black BST group project
 
-## Table of Contents
+## Compilation
 
 
-
-## Body
-
-
-
-### Introduction to Topic
-
-
-
-### Introduction to Project
-
-
-### Methods
-
-
-
-### Implementation
-
-
-
-### Contributions
-
-
-## Conclusion
-
-### Research
-
-### Programming
-
-
-### Final wrap-up
-
-
-
+## Running the program
 
