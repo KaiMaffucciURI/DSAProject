@@ -41,13 +41,13 @@ void writeTree(std::ofstream& ofs, LLRBTNode* root)
 	return;
 }
 
-//Not sure how to handle exceptions; commented it out to debug UI
+
 void writeDotFile(std::string file, const LLRBTree& tree)
 {
 	std::ofstream ofs(file, std::ofstream::trunc);
 	if (!ofs.good())
 	{
-		//throw new std::exception("Failed to open file");
+		throw new std::exception("Failed to open file");
 	}
 
 	ofs << "digraph G { ";
@@ -186,7 +186,6 @@ int main()
             }
         }
     }
-
 
 	return 0;
 }
