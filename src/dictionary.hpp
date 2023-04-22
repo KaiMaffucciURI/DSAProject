@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <ostream>
+#include <fstream>
 #include <string>
 
 // Defines MAX
@@ -10,48 +10,49 @@
 #define MAX(a,b) ((a > b) ? a : b)
 #endif
 
-// Underlying class which will be used to implement the LLRBTree class.
-// I.E. LLRBTree is made up of LLRBTNode
-struct LLRBTNode
+// Underlying class which will be used to implement the Dictionary class.
+// I.E. Dictionary is made up of DictionaryNode
+struct DictionaryNode
 {
     std::pair<std::string, int> data;
     bool red;
-    LLRBTNode* left;
-    LLRBTNode* right;
+    DictionaryNode* left;
+    DictionaryNode* right;
 
-    LLRBTNode(std::string word);
-    ~LLRBTNode();
+    DictionaryNode(std::string word);
+    ~DictionaryNode();
 };
 
 // Public versions: accept a single parameter so the usage of the class is neat.
 // Private version: implement the functions recursively
-class LLRBTree
+class Dictionary
 {
 private:
-    LLRBTNode* _root;
+    DictionaryNode* _root;
 
     // helper methods
-    LLRBTNode* rotate_left(LLRBTNode *node);
-    LLRBTNode* rotate_right(LLRBTNode *node);
-    bool is_red(LLRBTNode *node);
-    void flip_colors(LLRBTNode *node1, LLRBTNode *node2);
+    DictionaryNode* rotate_left(DictionaryNode *node);
+    DictionaryNode* rotate_right(DictionaryNode *node);
+    bool is_red(DictionaryNode *node);
+    void flip_colors(DictionaryNode *node1, DictionaryNode *node2);
 
     // tree methods
-    LLRBTNode* insert(std::string word, LLRBTNode* root);
-    LLRBTNode* remove(std::string word, LLRBTNode* root);
-    LLRBTNode* find_ios(LLRBTNode* root, bool& disconnect);
-    int height(LLRBTNode* root);
+    DictionaryNode* insert(std::string word, DictionaryNode* root);
+    DictionaryNode* remove(std::string word, DictionaryNode* root);
+    DictionaryNode* find_ios(DictionaryNode* root, bool& disconnect);
+    int height(DictionaryNode* root);
 
-    void preorder(LLRBTNode* root, std::ostream& os);
-    void inorder(LLRBTNode* root, std::ostream& os);
-    void postorder(LLRBTNode* root, std::ostream& os);
+    void preorder(DictionaryNode* root, std::ostream& os);
+    void inorder(DictionaryNode* root, std::ostream& os);
+    void postorder(DictionaryNode* root, std::ostream& os);
 
-    void destroy(LLRBTNode* root);
-    int search(const std::string&, LLRBTNode* root); // takes in word, returns how many times it appears (0 if not found)
-
+    void destroy(DictionaryNode* root);
+    int search(const std::string&, DictionaryNode* root); // takes in word, returns how many times it appears (0 if not found)
+	void writeTree(std::ofstream& ofs, DictionaryNode* root);
+	
 public:
-    LLRBTree();
-    ~LLRBTree();
+    Dictionary();
+    ~Dictionary();
 
     void insert(std::string word);
     void remove(std::string word);
@@ -62,6 +63,6 @@ public:
     void postorder(std::ostream& os = std::cout);
 
     int search(const std::string& word); // takes in word, returns how many times it appears (0 if not found)
-
-    LLRBTNode* const getRoot() const { return _root; }
+	
+	void writeDotFile(const std::string& file);
 };

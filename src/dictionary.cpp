@@ -1,5 +1,7 @@
 #include "dictionary.hpp"
 
+#include <exception>
+
 // helper function to easily convert everything to lowercase
 std::string to_lower(std::string str) {
 
@@ -14,7 +16,7 @@ std::string to_lower(std::string str) {
  * Node Class Functions
 */
 
-LLRBTNode::LLRBTNode(std::string word){
+DictionaryNode::DictionaryNode(std::string word){
     this->data.first = word;
     this->data.second = 1;
     this->red = true; // should always start as red
@@ -22,7 +24,7 @@ LLRBTNode::LLRBTNode(std::string word){
     this->right = nullptr;
 }
 
-LLRBTNode::~LLRBTNode()= default;
+DictionaryNode::~DictionaryNode()= default;
 
 /*
  * Tree Class Functions
@@ -33,10 +35,10 @@ LLRBTNode::~LLRBTNode()= default;
 */
 
 // rotate counterclockwise
-LLRBTNode* LLRBTree::rotate_left(LLRBTNode* node) {
+DictionaryNode* Dictionary::rotate_left(DictionaryNode* node) {
 
-    LLRBTNode* child = node->right;
-    LLRBTNode* left_child = child->left;
+    DictionaryNode* child = node->right;
+    DictionaryNode* left_child = child->left;
     child->left = node;
     node->right = left_child;
 
@@ -44,10 +46,10 @@ LLRBTNode* LLRBTree::rotate_left(LLRBTNode* node) {
 }
 
 // rotate clockwise
-LLRBTNode* LLRBTree::rotate_right(LLRBTNode* node) {
+DictionaryNode* Dictionary::rotate_right(DictionaryNode* node) {
 
-    LLRBTNode* child = node->left;
-    LLRBTNode* right_child = child->right;
+    DictionaryNode* child = node->left;
+    DictionaryNode* right_child = child->right;
     child->right = node;
     node->left = right_child;
 
@@ -56,7 +58,7 @@ LLRBTNode* LLRBTree::rotate_right(LLRBTNode* node) {
 
 // method that checks whether a given node is red or not
 // we need this in case we check a node that doesn't exist
-bool LLRBTree::is_red(LLRBTNode* node) {
+bool Dictionary::is_red(DictionaryNode* node) {
 
     if (node == nullptr) {
         return false;
@@ -66,7 +68,7 @@ bool LLRBTree::is_red(LLRBTNode* node) {
 }
 
 // method which swaps the colors of two given nodes
-void LLRBTree::flip_colors(LLRBTNode* node1, LLRBTNode* node2) {
+void Dictionary::flip_colors(DictionaryNode* node1, DictionaryNode* node2) {
 
     bool temp = node1->red;
     node1->red = node2->red;
@@ -74,10 +76,10 @@ void LLRBTree::flip_colors(LLRBTNode* node1, LLRBTNode* node2) {
 }
 
 
-LLRBTNode* LLRBTree::insert(std::string word, LLRBTNode* node){
+DictionaryNode* Dictionary::insert(std::string word, DictionaryNode* node){
 
     if (!node) {
-        return new LLRBTNode(word);
+        return new DictionaryNode(word);
     }
 
     // Go left if data < data at this Node
@@ -121,14 +123,14 @@ LLRBTNode* LLRBTree::insert(std::string word, LLRBTNode* node){
     return node;
 }
 
-LLRBTNode* LLRBTree::remove(std::string word, LLRBTNode* root){
+DictionaryNode* Dictionary::remove(std::string word, DictionaryNode* root){
     if(!root){
         return nullptr;
     }
 
     // We found what we're looking for, delete it.
     if(word == root->data.first){
-        LLRBTNode* temp;
+        DictionaryNode* temp;
         // This is a leaf node
         if(root->left == root->right){
             delete root;
@@ -168,12 +170,12 @@ LLRBTNode* LLRBTree::remove(std::string word, LLRBTNode* root){
     return root;
 }
 
-LLRBTNode* LLRBTree::find_ios(LLRBTNode* root, bool& disconnect){
+DictionaryNode* Dictionary::find_ios(DictionaryNode* root, bool& disconnect){
     if(!root->left){
         disconnect = true;
         return root;
     }
-    LLRBTNode* temp = find_ios(root->left, disconnect);
+    DictionaryNode* temp = find_ios(root->left, disconnect);
 
     if(disconnect){
         root->left = nullptr;
@@ -183,7 +185,7 @@ LLRBTNode* LLRBTree::find_ios(LLRBTNode* root, bool& disconnect){
     return temp;
 }
 
-int LLRBTree::height(LLRBTNode* root){
+int Dictionary::height(DictionaryNode* root){
     if(!root){
         return -1;
     }
@@ -199,7 +201,7 @@ int LLRBTree::height(LLRBTNode* root){
 // although they could be if the user wanted to print out all values in the tree,
 // so I'll leave this here like this for now
 
-void LLRBTree::preorder(LLRBTNode* root, std::ostream& os){
+void Dictionary::preorder(DictionaryNode* root, std::ostream& os){
     if(!root){
         return;
     }
@@ -211,7 +213,7 @@ void LLRBTree::preorder(LLRBTNode* root, std::ostream& os){
     return;
 }
 
-void LLRBTree::inorder(LLRBTNode* root, std::ostream& os){
+void Dictionary::inorder(DictionaryNode* root, std::ostream& os){
     if(!root){
         return;
     }
@@ -223,7 +225,7 @@ void LLRBTree::inorder(LLRBTNode* root, std::ostream& os){
     return;
 }
 
-void LLRBTree::postorder(LLRBTNode* root, std::ostream& os){
+void Dictionary::postorder(DictionaryNode* root, std::ostream& os){
     if(!root){
         return;
     }
@@ -235,7 +237,7 @@ void LLRBTree::postorder(LLRBTNode* root, std::ostream& os){
     return;
 }
 
-void LLRBTree::destroy(LLRBTNode* root){
+void Dictionary::destroy(DictionaryNode* root){
     if(!root){
         return;
     }
@@ -246,7 +248,7 @@ void LLRBTree::destroy(LLRBTNode* root){
     delete root->right;
 }
 
-int LLRBTree::search(const std::string& word, LLRBTNode* root){
+int Dictionary::search(const std::string& word, DictionaryNode* root){
     if(!root){
         return false;
     }
@@ -262,47 +264,89 @@ int LLRBTree::search(const std::string& word, LLRBTNode* root){
     }
 }
 
+void Dictionary::writeTree(std::ofstream& ofs, DictionaryNode* root)
+{
+	if (root == nullptr)
+	{
+		return;
+	}
+
+	ofs << root->data.first << "[label=\"" << root->data.first << ", " << root->data.second << "\"]; ";
+
+	if (root->left != nullptr)
+	{
+		ofs << root->data.first << " -> " << root->left->data.first << "; ";
+	}
+
+	if (root->right != nullptr)
+	{
+		ofs << root->data.first << " -> " << root->right->data.first << "; ";
+	}
+
+	writeTree(ofs, root->left);
+	writeTree(ofs, root->right);
+
+	return;
+}
+
 /*
  * Public Functions
 */
 
-LLRBTree::LLRBTree(){
+Dictionary::Dictionary(){
     this->_root = nullptr;
 }
 
-LLRBTree::~LLRBTree(){
+Dictionary::~Dictionary(){
     delete this->_root;
 }
 
-void LLRBTree::insert(std::string word){
+void Dictionary::insert(std::string word){
     this->_root = this->insert(to_lower(word), this->_root);
     this->_root->red = false;
 }
 
-void LLRBTree::remove(std::string word){
+void Dictionary::remove(std::string word){
     this->_root = this->remove(to_lower(word), this->_root);
 }
 
-int LLRBTree::search(const std::string& word){
+int Dictionary::search(const std::string& word){
     return this->search(to_lower(word), this->_root);
 }
 
-int LLRBTree::height(){
+int Dictionary::height(){
     return this->height(this->_root);
 }
 
-void LLRBTree::preorder(std::ostream& os){
+void Dictionary::preorder(std::ostream& os){
     this->preorder(this->_root, os);
     os << "\n";
 }
 
-void LLRBTree::inorder(std::ostream& os){
+void Dictionary::inorder(std::ostream& os){
     this->inorder(this->_root, os);
     os << "\n";
 }
 
-void LLRBTree::postorder(std::ostream& os){
+void Dictionary::postorder(std::ostream& os){
     this->postorder(this->_root, os);
     os << "\n";
 }
 
+void Dictionary::writeDotFile(const std::string& file)
+{
+	std::ofstream ofs(file, std::ofstream::trunc);
+	if (!ofs.good())
+	{
+		throw;
+	}
+
+	ofs << "digraph G { ";
+
+	writeTree(ofs, _root);
+
+	ofs << "}";
+	ofs.close();
+
+	return;
+}
