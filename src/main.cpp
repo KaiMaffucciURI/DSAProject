@@ -84,7 +84,14 @@ int main()
                     std::stringstream streamline(line);
                     std::string key;
 
-                    while(std::getline(streamline, entry, ',')){
+                    while(streamline >> entry){
+						char toremove[] = ",. ";
+						
+						for (int i = 0; i < 3; i++)
+						{
+							entry.erase(std::remove(entry.begin(), entry.end(), toremove[i]), entry.end());
+						}
+						
                         t.insert(entry);
                     }
                 }
