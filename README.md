@@ -40,6 +40,7 @@ With a resulting .DOT file that when put into a visualizer, will look as such:
 ![dot1](https://user-images.githubusercontent.com/114709842/233872216-3565fbb3-0e9f-4bd0-82ea-477e1c6638e1.PNG)
 
 Invoking the ```insert``` and ```search``` commands on the prior "sample.txt" will produce results as dictated, creating a new node for new words, adding to an pre-existing word's copy count, and returning the copy count of a word in the dictionary.
+
 ![output2](https://user-images.githubusercontent.com/114709842/234020859-1a12d308-d8e5-43be-969b-b190b6345cf4.PNG)
 
 Of course, the resulting .DOT output will correspond to changes made to the dictionary through ```insert``` calls:
