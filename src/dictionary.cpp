@@ -2,7 +2,8 @@
 
 #include <exception>
 
-// helper function to easily convert everything to lowercase
+// Helper function to easily convert everything to lowercase
+// Makes sure words are not repeated in the tree
 std::string to_lower(std::string str) {
 
     for (int i = 0; i < str.length(); i++) {
@@ -88,7 +89,11 @@ DictionaryNode* Dictionary::insert(std::string word, DictionaryNode* node){
         // Go right otherwise
     } else if (word > node->data.first) {
         node->right = insert(word, node->right);
-    } else {
+        //If the node already exists, "insert" it as a duplicate
+    } else if(word == node->data.first) {
+        node->data.second += 1;
+        return node;
+    }else {
         return node;
     }
 
@@ -248,13 +253,13 @@ void Dictionary::destroy(DictionaryNode* root){
     delete root->right;
 }
 
-int Dictionary::search(const std::string& word, DictionaryNode* root){
-    if(!root){
-        return false;
+DictionaryNode* Dictionary::search(const std::string& word, DictionaryNode* root){
+    if(!root){ //If not in the tree at all
+        return nullptr;
     }
 
-    if(word == root->data.first){
-        return true;
+    if(word == root->data.first){ //If we found the word
+        return root; //Returns the root for the other insert function
     }
 
     if(word < root->data.first){
@@ -266,31 +271,32 @@ int Dictionary::search(const std::string& word, DictionaryNode* root){
 
 void Dictionary::writeTree(std::ofstream& ofs, DictionaryNode* root)
 {
-	if (root == nullptr)
-	{
-		return;
-	}
+    if (root == nullptr)
+    {
+        return;
+    }
 
-	ofs << root->data.first << "[label=\"" << root->data.first << ", " << root->data.second << "\"]; ";
+    ofs << root->data.first << "[label=\"" << root->data.first << ", " << root->data.second << "\"]; ";
 
-	if (root->left != nullptr)
-	{
-		ofs << root->data.first << " -> " << root->left->data.first << "; ";
-	}
+    if (root->left != nullptr)
+    {
+        ofs << root->data.first << " -> " << root->left->data.first << "; ";
+    }
 
-	if (root->right != nullptr)
-	{
-		ofs << root->data.first << " -> " << root->right->data.first << "; ";
-	}
+    if (root->right != nullptr)
+    {
+        ofs << root->data.first << " -> " << root->right->data.first << "; ";
+    }
 
-	writeTree(ofs, root->left);
-	writeTree(ofs, root->right);
+    writeTree(ofs, root->left);
+    writeTree(ofs, root->right);
 
-	return;
+    return;
 }
 
 /*
  * Public Functions
+ * Each calls the related private recursive function
 */
 
 Dictionary::Dictionary(){
@@ -311,7 +317,13 @@ void Dictionary::remove(std::string word){
 }
 
 int Dictionary::search(const std::string& word){
-    return this->search(to_lower(word), this->_root);
+    DictionaryNode* foundnode = search(to_lower(word), this->_root);
+    if (foundnode == nullptr){
+        return 0; //Word is not found so it returns 0
+    } else {
+        return foundnode->data.second; //Returns the count of the found word
+    }
+
 }
 
 int Dictionary::height(){
@@ -335,18 +347,18 @@ void Dictionary::postorder(std::ostream& os){
 
 void Dictionary::writeDotFile(const std::string& file)
 {
-	std::ofstream ofs(file, std::ofstream::trunc);
-	if (!ofs.good())
-	{
-		throw;
-	}
+    std::ofstream ofs(file, std::ofstream::trunc);
+    if (!ofs.good())
+    {
+        throw;
+    }
 
-	ofs << "digraph G { ";
+    ofs << "digraph G { ";
 
-	writeTree(ofs, _root);
+    writeTree(ofs, _root);
 
-	ofs << "}";
-	ofs.close();
+    ofs << "}";
+    ofs.close();
 
-	return;
+    return;
 }

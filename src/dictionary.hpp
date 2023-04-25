@@ -24,7 +24,9 @@ struct DictionaryNode
 };
 
 // Public versions: accept a single parameter so the usage of the class is neat.
+// Only the public versions return anything to main
 // Private version: implement the functions recursively
+// Private versions returns the base case to the related public version
 class Dictionary
 {
 private:
@@ -47,9 +49,9 @@ private:
     void postorder(DictionaryNode* root, std::ostream& os);
 
     void destroy(DictionaryNode* root);
-    int search(const std::string&, DictionaryNode* root); // takes in word, returns how many times it appears (0 if not found)
-	void writeTree(std::ofstream& ofs, DictionaryNode* root);
-	
+    DictionaryNode* search(const std::string&, DictionaryNode* root);
+    void writeTree(std::ofstream& ofs, DictionaryNode* root);
+
 public:
     Dictionary();
     ~Dictionary();
@@ -62,7 +64,7 @@ public:
     void inorder(std::ostream& os = std::cout);
     void postorder(std::ostream& os = std::cout);
 
-    int search(const std::string& word); // takes in word, returns how many times it appears (0 if not found)
-	
-	void writeDotFile(const std::string& file);
+    int search(const std::string& word);
+
+    void writeDotFile(const std::string& file);
 };

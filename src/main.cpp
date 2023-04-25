@@ -1,10 +1,3 @@
-/*
- * TODO:
- *  Modify insert and search methods - Ashy (note from Kai: I toyed with them a bit, but I'm not sure if everything's done, check)
- *  Create user friendly functions (like the last project) - Ryan
- *  Check again to make it all work/debug - it'll get done in the process, right?
- */
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -17,7 +10,7 @@
 
 int main()
 {
-	Dictionary t;
+    Dictionary t;
 
     std::cout<<"Welcome to the virtual dictionary, please type 'help' for commands."<<std::endl;
 
@@ -57,12 +50,12 @@ int main()
             std::cout<<"help - prints all possible commands"<<std::endl;
             std::cout<<"insert [word] - inserts [word] into the dictionary"<<std::endl;
             std::cout<<"search [word] - searches how many times [word] is found"<<std::endl;
-            std::cout<<"load [file] - inserts words from CSV file named [file]"<<std::endl;
+            std::cout<<"load [file] - inserts words from text file named [file]"<<std::endl;
             std::cout<<"print [file] - generates a DOT file named [file]"<<std::endl;
             std::cout<<"exit - exits the program and stops runtime"<<std::endl;
         }
 
-        //Inserts words from a CSV file into the dictionary
+        //Inserts words from a text file into the dictionary
         if(tokens[0] == "load"){
             if(tokens.size() != 2){
                 std::cout<<"Usage - load [file]"<<std::endl;
@@ -84,14 +77,15 @@ int main()
                     std::stringstream streamline(line);
                     std::string key;
 
+                    //Ignores spaces and commas and separates words by whitespace
                     while(streamline >> entry){
-						char toremove[] = ",. ";
-						
-						for (int i = 0; i < 3; i++)
-						{
-							entry.erase(std::remove(entry.begin(), entry.end(), toremove[i]), entry.end());
-						}
-						
+                        char toremove[] = ",. ";
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            entry.erase(std::remove(entry.begin(), entry.end(), toremove[i]), entry.end());
+                        }
+
                         t.insert(entry);
                     }
                 }
@@ -129,7 +123,7 @@ int main()
                     continue;
                 }
                 else{
-                    std::cout<<"Word was found "<<result<<" times."<<std::endl;
+                    std::cout<< word << " was found "<<result<<" time(s)."<<std::endl;
                     continue;
                 }
             }
@@ -142,12 +136,14 @@ int main()
                 continue;
             }
             else{
+                //Making a new file name for the DOT file
                 std::string f_name = tokens[1];
                 t.writeDotFile(f_name);
+                std::cout<<"Dictionary successfully written to '"<<f_name<<"'."<<std::endl;
                 continue;
             }
         }
     }
 
-	return 0;
+    return 0;
 }
