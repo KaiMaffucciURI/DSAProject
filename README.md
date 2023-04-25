@@ -2,9 +2,11 @@
 Left-Leaning Red-Black Binary Search Trees as a Dictionary
 
 # Compilation
-The primary version of C++ that this program was compiled and tested on was C++ 11, so for stable results, also compile using C++ 11. Other versions of C++ may work, but their safety and stability is not guarenteed. Open the compiler and enter the follwing command to generate executable ```./dictionary```:
+The primary version of C++ that this program was compiled and tested on was C++ 11, so for stable results, also compile using C++ 11. Other versions of C++ may work, but their safety and stability is not guarenteed. Open the terminal and enter the follwing command to generate executable ```./dictionary``` with g++:
 
 ```g++ src/main.cpp src/dictionary.cpp -o dictionary -std=c++11```
+
+This of course requires g++ to be installed on your machine: if you would like to use another compiler with the same parameters feel free, but understand that you may have to do tweaking to make it fit what you choose. 
 
 In the same directory as the ```./dictionary``` executable, include any text files containing words that the user wishes to include in their dictionary. The words in the text files are separated by whitespace only. Characters ',' and '.' will be ignored during runtime.
 
